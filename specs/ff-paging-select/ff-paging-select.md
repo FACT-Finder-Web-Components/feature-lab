@@ -5,10 +5,11 @@ Provides paging functionality through a native `select` element.
 
 ## General
 
-- supports custom event listeners added to `select` by user at any time
+- supports custom event listeners added to `ff-paging-select` by user at any time
   ```js
-  document.querySelector("ff-paging-select select").addEventListener("click", handler);
+  document.querySelector("ff-paging-select").addEventListener("click", handler);
   ```
+  - behaviour of event listeners added to children of `ff-paging-select` is **not defined**
 - uses `pageLinks` from paging response
 
 
@@ -148,6 +149,9 @@ Property | Type | Required | Default | Element updates on change | DOM Attribute
 pagingData | Object | no   | `undefined` | yes                   | _(none)_
 
 This property holds the data that shall be visualized by the element. It has the same structure as the FF response's `searchResult.paging` property.
+
+**Throws** if assigned data is not in the format of `{ pageLinks: [] }`.  
+Error message: `ff-paging-select received invalid data format. Must be { pageLinks: [] }`
 
 The equivalent property on `ff-paging` is simply called `paging`.
 
