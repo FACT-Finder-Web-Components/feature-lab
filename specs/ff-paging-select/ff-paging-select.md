@@ -5,10 +5,11 @@ Provides paging functionality through a native `select` element.
 
 ## General
 
-- supports custom event listeners added to `select` by user at any time
+- supports custom event listeners added to `ff-paging-select` by user at any time
   ```js
-  document.querySelector("ff-paging-select select").addEventListener("click", handler);
+  document.querySelector("ff-paging-select").addEventListener("click", handler);
   ```
+  - behaviour of event listeners added to children of `ff-paging-select` is **not defined**
 - uses `pageLinks` from paging response
 
 
