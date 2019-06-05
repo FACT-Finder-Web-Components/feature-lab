@@ -150,6 +150,9 @@ pagingData | Object | no   | `undefined` | yes                   | _(none)_
 
 This property holds the data that shall be visualized by the element. It has the same structure as the FF response's `searchResult.paging` property.
 
+**Throws** if assigned data is not in the format of `{ pageLinks: [] }`.  
+Error message: `ff-paging-select received invalid data format. Must be { pageLinks: [] }`
+
 The equivalent property on `ff-paging` is simply called `paging`.
 
 ### Events
