@@ -5,13 +5,13 @@ Brief outline what this feature is about.
 
 ## General
 
-Description of general and characteristics and things to be aware of during implementation and usage.
+Description of general characteristics and things to be aware of during implementation and usage.
 
 Specifications shall be mostly developer friendly with straight-to-the-point explanations. While at the same time it shall be taken into consideration that a spec text serves as the **basis for the official documentation** article.
 
 Be as explicit as possible about what the feature **does** and what it **not does**.
 
-The form of this template does not have to be adhered to 100%. Feel free to add or change sections and further explanation detail as you see fit.
+The form of this template does not have to be adhered to 100%. Feel free to add or change sections and level of detail as you see fit.
 
 
 ## Default HTML
