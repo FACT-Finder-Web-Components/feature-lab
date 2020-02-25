@@ -53,3 +53,12 @@ An exception shall not break the transform execution nor should it stop the Resu
 
 # Warnings
 If the old state is not undefined and the transform callback returns undefined a warning should be logged telling the developer that this might break things.
+
+# Scope - transform, addCallback, subscribe 
+In the future 'transform' is going to replace 'addCallback' entirely and we want to provide a smooth transition from addCallback.
+
+The execution of transform callbacks shall take place before addCallback callbacks which themselfs take place before subscribe callbacks.
+The functionality of addCallback and subscribe have to be retained, i.e. references are passed to them.
+
+It's planned to pass deep copies to subscribe in a future breaking change release which will render them useless for data manipulation but as of now too many people are relying on addCallback and subscribe to change data.
+ 
