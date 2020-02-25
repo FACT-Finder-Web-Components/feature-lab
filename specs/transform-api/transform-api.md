@@ -35,6 +35,18 @@ ResultDispatcher.transform("topic", (oldState) => {
 
 Retrieve old state, return new state.
 
+## Promise based Usage
+It's a common use case to enrich data from 3rd party services. Therefore the transform function should prepare to accept promises. 
+If a promise is retrieved the execution of is paused until the promise resolves, which will trigger the next step with the new state or the promise is rejected which will trigger the next step with the old state.
+```javascript
+ResultDispatcher.transform("topic", (oldState) => {
+                                        return new Promise((resolve, reject) => {
+                                                    // do async stuff
+                                                    resolve(newState);                                        
+                                                })                              
+                                    });
+```
+
 # Exceptions
 If an exception is thrown in a user supplied callback the exception shall be catched and the name of the callback function, if any, and the error should be logged to the browser console in an error fashion style.
 An exception shall not break the transform execution nor should it stop the ResultDispatching process.
