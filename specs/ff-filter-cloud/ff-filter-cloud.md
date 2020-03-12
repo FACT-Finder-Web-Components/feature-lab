@@ -1,6 +1,14 @@
 # ff-filter-cloud
 The `ff-filter-cloud` displays all filters that are currently selected through `ff-asn`.
 
+
+# TODO
+- persist ordering across page loads
+  - this kind of behaviour was requested for sortbox, very likely it will be requested here, too
+  - custom-elements PR #454, comment #51926
+- public data property `selectedFilters`. is currently `_selectedFilters`
+
+
 ## Usage
 
 Minimum setup:
