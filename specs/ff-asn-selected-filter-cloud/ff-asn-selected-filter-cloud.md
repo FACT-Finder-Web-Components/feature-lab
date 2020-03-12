@@ -78,9 +78,12 @@ This example will whitelist only filters applied by the `Gender` and `Catgeory` 
 </ff-filter-cloud>
 ```
 
-## Default templates
+## Specifying templates
 
 ### Setup
+
+Leaving the element completely empty makes it possible to omit the otherwise required `data-template="filter"` template. A default template will be applied.
+
 ```html
 <ff-filter-cloud></ff-filter-cloud>
 ```
@@ -94,6 +97,21 @@ This example will whitelist only filters applied by the `Gender` and `Catgeory` 
     <span data-template="filter">Filter n</span>
 </ff-filter-cloud>
 ```
+
+---
+
+### Setup
+
+The following is an error.
+
+```html
+<ff-filter-cloud>
+    <span>Custom HTML</span>
+</ff-filter-cloud>
+```
+
+`ff-filter-cloud` has no way of determining where to render its filter-item elements.
+
 ---
 
 ### Setup
@@ -134,10 +152,15 @@ This example will whitelist only filters applied by the `Gender` and `Catgeory` 
 
 | Attribute     | Options  | Required | Notes
 | ---------     | -------- | -------- | -----------
-| data-template | filter   | optional | (TODO) Warning in console if not specified
+| data-template | filter   | yes*     | Can be omitted if element is empty
 
+Failing to specify a template with the `data-template="filter"` attribute causes an error.
+
+_(*) The only exception where it may be omitted is when `ff-filter-cloud` is left completely empty. The default template will then be used._
+
+Default template:
 ```html
-<div data-template="filter">{{group.name}}: {{element.name}}</div>
+<span data-template="filter">{{element.name}}</span>
 ```
 
 ## API
@@ -150,7 +173,7 @@ This example will whitelist only filters applied by the `Gender` and `Catgeory` 
 |           |          |        | alphabetical   |             |
 |           |          |        | user-selection |             |
 
-Changing this value causes the `ff-filter-cloud` to update. It will not issue a request to FACT-Finder.
+Changing this value causes `ff-filter-cloud` to update. It will not issue a request to FACT-Finder.
 
 _Setting a value other than listed in the Options column causes an error._
 
@@ -168,11 +191,9 @@ _Setting a value other than listed in the Options column causes an error._
 | --------- | -------- | ----         | -------  | -----------
 | blacklist | optional | String (CSV) | _(none)_ | `blacklist`
 
-A comma separated list of asn group names which should **not** appear in the list of selected filters. Changing this attribute has no effect until the next search request to FACT-Finder.
+A comma separated list of asn group names which should **not** appear in the list of selected filters. Changing this value causes `ff-filter-cloud` to update. It will not issue a request to FACT-Finder.
 
 Note that the comparison of group names is case-sensitive.
-
-Changing this value causes the `ff-filter-cloud` to update. It will not issue a request to FACT-Finder.
 
 _This attribute cannot be used in conjunction with the `whitelist` attribute. Doing so will cause an error._
 
@@ -183,11 +204,9 @@ _This attribute cannot be used in conjunction with the `whitelist` attribute. Do
 | --------- | -------- | ----         | -------  | -----------
 | whitelist | optional | String (CSV) | _(none)_ | `whitelist`
 
-A comma separated list of asn group names which should **exclusively** appear in the list of selected filters. Changing this attribute has no effect until the next search request to FACT-Finder.
+A comma separated list of asn group names which should **exclusively** appear in the list of selected filters. Changing this value causes `ff-filter-cloud` to update. It will not issue a request to FACT-Finder.
 
 Note that the comparison of group names is case-sensitive.
-
-Changing this value causes the `ff-filter-cloud` to update. It will not issue a request to FACT-Finder.
 
 _This attribute cannot be used in conjunction with the `blacklist` attribute. Doing so will cause an error._
 
