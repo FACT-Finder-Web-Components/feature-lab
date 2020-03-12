@@ -40,8 +40,8 @@ You can control the order of the filter elements by using the `order` attribute.
 #### example order usage
 ```html
 <ff-filter-cloud order="user-selection">
-    <div data-filter-container>
-        <span data-filter>{{group.name}}: {{element.name}}</span>
+    <div>
+        <span data-template="filter">{{group.name}}: {{element.name}}</span>
     </div>
 </ff-filter-cloud>
 ```
@@ -50,7 +50,7 @@ You can control the order of the filter elements by using the `order` attribute.
 If you want to exclude specific filter **groups** from the filter cloud, you can use the `blacklist` attribute. You may specify as many groups as you need, separated by commas. The values must correspond to the group `name` or `associatedFieldName` property returned by FACT-Finder.
 
 **Note**
-This attribute cannot be used in conjunction with the `whitelist` attribute. Doing so will cause an exception to be thrown.
+This attribute cannot be used in conjunction with the `whitelist` attribute. Doing so will cause an error.
 
 #### example blacklist usage
 This example will blacklist all filters applied by the `Price` and `Size` groups.
@@ -66,7 +66,7 @@ This example will blacklist all filters applied by the `Price` and `Size` groups
 If you want to exclusively specify each filter **group**, you can use the `whitelist` attribute. Like in `blacklist`, you may specify as many groups as you need, separated by commas. The values must correspond to the group `name` or `associatedFieldName` property returned by FACT-Finder.
 
 **Note**
-This attribute cannot be used in conjunction with the `blacklist` attribute. Doing so will cause an exception to be thrown.
+This attribute cannot be used in conjunction with the `blacklist` attribute. Doing so will cause an error.
 
 #### example whitelist usage
 This example will whitelist only filters applied by the `Gender` and `Catgeory` groups.
@@ -132,9 +132,9 @@ This example will whitelist only filters applied by the `Gender` and `Catgeory` 
 
 ## Directives
 
-| Attribute             | Options  | Required | Description
-| ---------             | -------- | -------- | -----------
-| data-template         | filter   | optional | (TODO) Warning in console if not specified
+| Attribute     | Options  | Required | Notes
+| ---------     | -------- | -------- | -----------
+| data-template | filter   | optional | (TODO) Warning in console if not specified
 
 ```html
 <div data-template="filter">{{group.name}}: {{element.name}}</div>
@@ -149,6 +149,10 @@ This example will whitelist only filters applied by the `Gender` and `Catgeory` 
 | order     | optional | String | _fact-finder_  | fact-finder | `order`
 |           |          |        | alphabetical   |             |
 |           |          |        | user-selection |             |
+
+Changing this value causes the `ff-filter-cloud` to update. It will not issue a request to FACT-Finder.
+
+_Setting a value other than listed in the Options column causes an error._
 
 #### Options
 
@@ -166,7 +170,11 @@ This example will whitelist only filters applied by the `Gender` and `Catgeory` 
 
 A comma separated list of asn group names which should **not** appear in the list of selected filters. Changing this attribute has no effect until the next search request to FACT-Finder.
 
-_This attribute cannot be used in conjunction with the `whitelist` attribute. Doing so will cause an exception to be thrown._
+Note that the comparison of group names is case-sensitive.
+
+Changing this value causes the `ff-filter-cloud` to update. It will not issue a request to FACT-Finder.
+
+_This attribute cannot be used in conjunction with the `whitelist` attribute. Doing so will cause an error._
 
 
 ---
@@ -177,7 +185,11 @@ _This attribute cannot be used in conjunction with the `whitelist` attribute. Do
 
 A comma separated list of asn group names which should **exclusively** appear in the list of selected filters. Changing this attribute has no effect until the next search request to FACT-Finder.
 
-_This attribute cannot be used in conjunction with the `blacklist` attribute. Doing so will cause an exception to be thrown._
+Note that the comparison of group names is case-sensitive.
+
+Changing this value causes the `ff-filter-cloud` to update. It will not issue a request to FACT-Finder.
+
+_This attribute cannot be used in conjunction with the `blacklist` attribute. Doing so will cause an error._
 
 
 ### Events
