@@ -37,7 +37,7 @@ Retrieve old state, return new state.
 
 ## Promise based Usage
 It's a common use case to enrich data from 3rd party services. Therefore the transform function should prepare to accept promises. 
-If a promise is retrieved the execution of is paused until the promise resolves, which will trigger the next step with the new state or the promise is rejected which will trigger the next step with the old state.
+If a promise is retrieved the execution is paused until the promise resolves, which will trigger the next step with the new state or the promise is rejected which will trigger the next step with the old state.
 ```javascript
 ResultDispatcher.transform("topic", (oldState) => {
                                         return new Promise((resolve, reject) => {
@@ -48,13 +48,17 @@ ResultDispatcher.transform("topic", (oldState) => {
 ```
 
 # Exceptions
-If an exception is thrown in a user supplied callback the exception shall be catched and the name of the callback function, if any, and the error should be logged to the browser console in an error fashion style.
+If an exception is thrown in a user supplied callback the exception shall be caught and the name of the callback function, if any, and the error should be logged to the browser console in an error fashion style.
 An exception shall not break the transform execution nor should it stop the ResultDispatching process.
 
 **It's important to highlight the exception as a user caused exception.** 
 
 # Warnings
 If the old state is not undefined and the transform callback returns undefined a warning should be logged telling the developer that this might break things.
+
+# Special Cases
+1. `undefined` is dispatched
+A transform callback shall not be executed if the new value is `undefined`. This is duo to the fact that `undefined` is used to hide element's and is therefore not considered a valid use case for the transform API.   
 
 # Scope - transform, addCallback, subscribe 
 In the future 'transform' is going to replace 'addCallback' entirely and we want to provide a smooth transition from addCallback.
