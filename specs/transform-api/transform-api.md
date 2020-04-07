@@ -51,6 +51,8 @@ ResultDispatcher.transform("topic", (oldState) => {
 If an exception is thrown in a user supplied callback the exception shall be catched and the name of the callback function, if any, and the error should be logged to the browser console in an error fashion style.
 An exception shall not break the transform execution nor should it stop the ResultDispatching process.
 
+**It's important to highlight the exception as a user caused exception.** 
+
 # Warnings
 If the old state is not undefined and the transform callback returns undefined a warning should be logged telling the developer that this might break things.
 
