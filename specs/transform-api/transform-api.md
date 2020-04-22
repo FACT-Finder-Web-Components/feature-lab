@@ -27,29 +27,66 @@ That's why we want to introduce **ResultDispatcher.transform**.
 # Usage
 Just like in the example above the usage is pretty straightforward:
 ```javascript
-ResultDispatcher.transform("topic", (oldState) => {
-                                        ...
-                                        return newState;
-                                    });
+        document.addEventListener("ffReady", function ({resultDispatcher}) {
+            const {transform} = resultDispatcher;
+            transform((Phase, Pipeline) => ({
+                topic: "asn",
+                phase: Phase.BeforeMiddleware,
+                onException: Pipeline.Skip, // default Pipeline.Halt
+                handler(oldState, event) {
+                    if (oldState.isSchrott)
+                        return Pipeline.Skip; // Skip this transform call
+                    else if (oldState.isDoubleSchrott)
+                        return Pipeline.Halt; // stop further propagation i.e. the data will not be dispatched to any further callback or middleware and therefore doesn't reaches any custom element
+                    else
+                        return {...oldState}; // return new state
+                }
+            }));
+        });
 ```
 
-Retrieve old state, return new state.
+Retrieve old state, return new state. 
+In addition it's possible to explicitly `Skip` the execution or `Halt` the entire process chain. 
+
+**It is not possible to return the same reference of data.** 
+
+If the same reference is returned, `Halt` the execution and throw an appropriate error.**
+
+### Phase
+* **BeforeMiddleware** 
+* **AfterMiddleware**
+
+### Pipeline
+* **Halt** This will stop all further execution of callbacks and middleware. The data will not be dispatched to any custom element.
+* **Skip** Return this state if you do not want change the state.
 
 ## Promise based Usage
 It's a common use case to enrich data from 3rd party services. Therefore the transform function should prepare to accept promises. 
 If a promise is retrieved the execution is paused until the promise resolves, which will trigger the next step with the new state or the promise is rejected which will trigger the next step with the old state.
 ```javascript
-ResultDispatcher.transform("topic", (oldState) => {
-                                        return new Promise((resolve, reject) => {
-                                                    // do async stuff
-                                                    resolve(newState);                                        
-                                                })                              
-                                    });
+ document.addEventListener("ffReady", function ({resultDispatcher}) {
+            const {transform} = resultDispatcher;
+            transform((Phase, Pipeline) => ({
+                topic: "asn",
+                phase: Phase.BeforeMiddleware,
+                onException: Pipeline.Skip, // default Pipeline.Halt
+                handler(oldState, event) {
+                    return new Promise((resolve, reject) => {
+                        if (oldState.isSchrott)
+                            resolve(Pipeline.Skip); // Skip this transform call
+                        else if (oldState.isDoubleSchrott)
+                            resolve(Pipeline.Halt); // stop further propagation i.e. the data will not be dispatched to any further callback or middleware and therefore doesn't reaches any custom element
+                        else
+                            resolve({...oldState}); // return new state
+                    })
+                }
+            }));
+        });
 ```
 
 # Exceptions
 If an exception is thrown in a user supplied callback the exception shall be caught and the name of the callback function, if any, and the error should be logged to the browser console in an error fashion style.
-An exception shall not break the transform execution nor should it stop the ResultDispatching process.
+An exception shall not break the transform execution nor should it stop the ResultDispatching process. Treat an exception like a `Pipeline.Skip`.
 
 **It's important to highlight the exception as a user caused exception.** 
 
